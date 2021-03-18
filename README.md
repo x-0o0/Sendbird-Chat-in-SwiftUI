@@ -1,5 +1,6 @@
 # Sendbird-Chat-in-SwiftUI
-Simple Sendbird Chat app in SwiftUI
+
+![SwiftUI 2](https://img.shields.io/badge/SwiftUI_2-e4405f?style=for-the-badge&logo=swift&logoColor=white)
 
 ## Tips
 
@@ -21,3 +22,5 @@ ScrollView(showsIndicators: false) {
 }
 .rotationEffect(Angle(degrees: 180))
 ```
+
+<img src="./screenshot_1.png" width="50%" height="50%">
