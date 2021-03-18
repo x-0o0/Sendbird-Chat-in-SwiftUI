@@ -23,4 +23,30 @@ ScrollView(showsIndicators: false) {
 .rotationEffect(Angle(degrees: 180))
 ```
 
-<img src="./screenshot_1.png" width="50%" height="50%">
+<img src="./screenshot_1.png" width="25%" height="25%">
+
+### How to receive event with Combine?
+```swift
+class ChatModel: ObservableObject {
+    var proxy = SBDChannelDelegateProxy()
+    var eventPublisher: AnyPublisher<ChannelEvent, Never> {
+        self.proxy.passthrough.eraseToAnyPublisher()
+    }
+    
+    // ...
+}
+
+class SBDChannelDelegateProxy: NSObject, SBDChannelDelegate {
+    var passthrough = PassthroughSubject<ChannelEvent, Never>()
+   
+    func channel(_ sender: SBDBaseChannel, didReceive message: SBDBaseMessage) {
+        guard message is SBDUserMessage else { return }
+        self.passthrough.send(.didReceiveMessage(message, sender))
+    }
+    
+    func channel(_ sender: SBDBaseChannel, messageWasDeleted messageId: Int64) {
+        self.passthrough.send(.didDeleteMessage(messageId, sender))
+    }
+}
+
+```
